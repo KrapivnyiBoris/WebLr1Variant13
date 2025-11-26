@@ -106,3 +106,23 @@ a{
         height: auto;
     }
 }
+
+/* Додай це в style-grid.css */
+.header-left {
+  display: flex;       /* Ставимо елементи в ряд */
+  align-items: center; /* Центруємо по вертикалі */
+  gap: 20px;           /* Відступ між SW та X */
+}
+
+/* Трохи поправимо інпути, щоб їх було видно на чорному фоні */
+#x_input, #y_input {
+  border: 2px solid #ffe81f; /* Жовта рамка як у SW */
+  padding: 5px;
+  font-weight: bold;
+}
+
+/* Додайте це, щоб заголовок не "розпирав" футер при обміні */
+h1 {
+  margin: 0; 
+  padding: 0;
+}
