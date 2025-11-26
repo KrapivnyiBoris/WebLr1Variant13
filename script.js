@@ -130,3 +130,76 @@ document.addEventListener('DOMContentLoaded', () => {
     if (swapBtn) swapBtn.addEventListener('click', swapBlockContents);
     if (calculateBtn) calculateBtn.addEventListener('click', calculate);
 });
+
+// === ФУНКЦІОНАЛ ЗАВДАННЯ №4 (Blur та LocalStorage) ===
+
+function capitalizeWords(text) {
+    if (!text) return '';
+    return text.toLowerCase().split(' ').map(word => {
+        // Забезпечуємо, що пусті слова не викликають помилок
+        if (word.length === 0) return '';
+        // Робить першу літеру великою
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... всі інші елементи DOM (xInput, yInput, swapBtn, тощо) ...
+    
+    // Нові елементи для Завдання 4
+    const block4Content = document.getElementById('block-4-content');
+    const capitalizeCheckbox = document.getElementById('capitalize_checkbox');
+
+    // =======================================================
+    // 1. ІНІЦІАЛІЗАЦІЯ (Читання LocalStorage при завантаженні)
+    // =======================================================
+    const savedState = localStorage.getItem('capitalizeEnabled');
+    
+    if (savedState === 'true') {
+        // Якщо LocalStorage каже 'true', встановлюємо галочку
+        capitalizeCheckbox.checked = true;
+        
+        // І одразу форматуємо вміст Блоку 4
+        if (block4Content) {
+            block4Content.innerText = capitalizeWords(block4Content.innerText);
+        }
+    } else {
+         // Якщо 'false' або нічого немає, галочка знята
+        capitalizeCheckbox.checked = false;
+    }
+
+    // =======================================================
+    // 2. ОБРОБКА ПОДІЙ
+    // =======================================================
+
+    // A. Обробка події BLUR (Користувач закінчив редагування)
+    if (block4Content) {
+        block4Content.addEventListener('blur', () => {
+            // Перевіряємо, чи має спрацювати форматування
+            if (capitalizeCheckbox.checked) {
+                // Отримуємо текст, форматуємо та записуємо назад
+                const currentText = block4Content.innerText;
+                const newText = capitalizeWords(currentText);
+                block4Content.innerText = newText;
+            }
+        });
+    }
+
+    // B. Обробка події CHANGE (Користувач змінив галочку)
+    if (capitalizeCheckbox) {
+        capitalizeCheckbox.addEventListener('change', () => {
+            const isChecked = capitalizeCheckbox.checked;
+            
+            // Зберігаємо нове значення в LocalStorage
+            localStorage.setItem('capitalizeEnabled', isChecked);
+            
+            // Одразу форматуємо текст, якщо галочку щойно поставили
+            if (isChecked && block4Content) {
+                const currentText = block4Content.innerText;
+                block4Content.innerText = capitalizeWords(currentText);
+            }
+        });
+    }
+    
+    // ... решта вашого коду (swapBtn, calculateBtn logic) ...
+});
